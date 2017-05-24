@@ -1,6 +1,6 @@
-package model;
+package Modelo;
 
 public interface Promocao {
+    public String getPromocao();
     public double getDesconto();
-    public double getPromocao();
 }

@@ -1,16 +1,22 @@
-package model;
+package Modelo;
 
 public class Pessoa {
+    private int codPessoa;
     private String cpf;
     private String nome;
     private String email;
 
-    public Pessoa(String cpf, String nome, String email) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.email = email;
+    public Pessoa() {
     }
 
+    public int getCodPessoa() {
+        return codPessoa;
+    }
+
+    public void setCodPessoa(int codPessoa) {
+        this.codPessoa = codPessoa;
+    }
+    
     public String getCpf() {
         return cpf;
     }
@@ -34,5 +40,4 @@ public class Pessoa {
     public void setEmail(String email) {
         this.email = email;
     }
-    
 }
