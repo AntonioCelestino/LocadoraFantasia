@@ -9,5 +9,8 @@
         <h1>Menu</h1>
         <a href="FrontController?action=Pessoa&acao=pesquisar">Manter Pessoa</a><br>
         <a href="FrontController?action=Fantasia&acao=pesquisar">Manter Fantasia</a><br>
+        <a href="FrontController?action=Cliente&acao=pesquisar">Manter Cliente</a><br>
+        <a href="FrontController?action=Funcionario&acao=pesquisar">Manter Funcionario</a><br>
+        <a href="FrontController?action=Aluguel&acao=pesquisar">Manter Aluguel</a><br>
     </body>
 </html>
