@@ -4,7 +4,7 @@ public class PromocaoComicCon implements Promocao{
 
     @Override
     public String getPromocao() {
-        return "Promoção do Evento ComicCon";
+        return "ComicCon";
     }
 
     @Override

@@ -9,26 +9,26 @@ public class FantasiaEstadoDescartado implements FantasiaEstado{
 
     @Override
     public String disponibilizar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoDisponivel());
-        return "está "+f.getEstado();
+        //f.setEstado(new FantasiaEstadoDisponivel());
+        return "Estado "+f.getEstado()+" não pode mudar para Disponível";
     }
 
     @Override
     public String alugar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoAlugado());
-        return "está "+f.getEstado();
+        //f.setEstado(new FantasiaEstadoAlugado());
+        return "Estado "+f.getEstado()+" não pode mudar para Alugado";
     }
 
     @Override
     public String descartar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoDescartado());
+        //f.setEstado(new FantasiaEstadoDescartado());
         return "já está "+f.getEstado();
     }
 
     @Override
     public String restaurar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoRestaurando());
-        return "está "+f.getEstado();
+        //f.setEstado(new FantasiaEstadoRestaurando());
+        return "Estado "+f.getEstado()+" não pode mudar para Restaurando";
     }
     
 }

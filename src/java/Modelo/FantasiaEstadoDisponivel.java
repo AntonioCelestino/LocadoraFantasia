@@ -9,7 +9,7 @@ public class FantasiaEstadoDisponivel implements FantasiaEstado{
 
     @Override
     public String disponibilizar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoDisponivel());
+        //f.setEstado(new FantasiaEstadoDisponivel());
         return "já está "+f.getEstado();
     }
 

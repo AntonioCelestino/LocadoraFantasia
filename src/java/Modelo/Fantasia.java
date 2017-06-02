@@ -1,6 +1,7 @@
 package Modelo;
 
 import Controller.ActionFactory;
+import java.text.Normalizer;
 
 public class Fantasia {
     private int codFantasia;
@@ -8,6 +9,7 @@ public class Fantasia {
     private String categoria;
     private String tamanho;
     private FantasiaEstado estado;
+    private String nomeEstado;
     private double diaria;
 
     public Fantasia() {
@@ -49,12 +51,19 @@ public class Fantasia {
     public String getEstado() {
         return estado.getEstado();
     }
+    
+    public String getNomeEstado() {
+        return nomeEstado;
+    }
 
     public void setEstado(FantasiaEstado estado) {
         this.estado = estado;
+        this.nomeEstado = estado.getEstado();
     }
     
     public void setNomeEstado(String estado) {
+        this.nomeEstado = estado;
+        estado = removeAcentos(estado);
         FantasiaEstado actionObject = ActionFactory.estado("Modelo.FantasiaEstado"+estado);
         this.estado = actionObject;
     }
@@ -81,5 +90,11 @@ public class Fantasia {
     
     public String restaurar(){
         return estado.restaurar(this);
+    }
+    
+    private String removeAcentos(String str) {
+        str = Normalizer.normalize(str, Normalizer.Form.NFD);
+        str = str.replaceAll("[^\\p{ASCII}]", "");
+        return str;
     }
 }

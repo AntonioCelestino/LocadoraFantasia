@@ -15,7 +15,7 @@ public class FantasiaEstadoAlugado implements FantasiaEstado{
 
     @Override
     public String alugar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoAlugado());
+        //f.setEstado(new FantasiaEstadoAlugado());
         return "já está "+f.getEstado();
     }
 

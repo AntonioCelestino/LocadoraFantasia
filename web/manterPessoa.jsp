@@ -24,7 +24,7 @@
                     <td><input type="text" name="txtEmail" value="${pessoa.email}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
                 </tr>
                 <tr>
-                    <td><input type="submit"></td>
+                    <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
             </table>
         </form>

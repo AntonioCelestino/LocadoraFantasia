@@ -5,73 +5,49 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.ServletException;
 
 public class FantasiaDAO extends GenericoDAO<Fantasia>{
 
     private static FantasiaDAO instance = new FantasiaDAO();
     private final String tabela = "FANTASIA";
+    private final List<Object> params = new ArrayList<>();
+    private String sql = null;
     
     public static FantasiaDAO getInstance() {
         return instance;
     }
 
     @Override
-    public List<Fantasia> obterTs() {
+    public List<Fantasia> obterTs() throws ServletException {
+        params.clear();
         List<Fantasia> fs = new ArrayList<>();
-        List<Object> params = new ArrayList<>();
+        sql = "SELECT * FROM "+tabela;
         try {
-            fs = super.obterClasses("SELECT * FROM "+tabela, params, new RowMapping() {
-                @Override
-                public Object mapeamento(ResultSet rs) throws SQLException {
-                    Fantasia f = new Fantasia();
-                    f.setCodFantasia(rs.getInt("ID_FANTASIA"));
-                    f.setNome(rs.getString("NOME"));
-                    f.setCategoria(rs.getString("CATEGORIA"));
-                    f.setTamanho(rs.getString("TAMANHO"));
-                    f.setNomeEstado(rs.getString("ESTADO"));
-                    f.setDiaria(rs.getDouble("DIARIA"));
-                    return f;
-                }
-            });
+            fs = super.obterClasses(sql, params, getMapa());
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
         return fs;
     }
 
     @Override
-    public Fantasia obterT(int codFantasia) {
+    public Fantasia obterT(int codFantasia) throws ServletException {
+        params.clear();
         Fantasia f = new Fantasia();
-        String sql = "SELECT * FROM "+tabela+" WHERE ID_FANTASIA = ?";
-        List<Object> params = new ArrayList<>();
+        sql = "SELECT * FROM "+tabela+" WHERE ID_FANTASIA = ?";
         params.add(codFantasia);
         try {
-            f = super.obterClasse(sql, params, new RowMapping() {
-                @Override
-                public Object mapeamento(ResultSet rs) throws SQLException {
-                    Fantasia f = new Fantasia();
-                    f.setCodFantasia(rs.getInt("ID_FANTASIA"));
-                    f.setNome(rs.getString("NOME"));
-                    f.setCategoria(rs.getString("CATEGORIA"));
-                    f.setTamanho(rs.getString("TAMANHO"));
-                    f.setNomeEstado(rs.getString("ESTADO"));
-                    f.setDiaria(rs.getDouble("DIARIA"));
-                    return f;
-                }
-            });
-            
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            f = super.obterClasse(sql, params, getMapa());
+        } catch (SQLException | ClassNotFoundException ex) {
+            throw new ServletException(ex);
         }
         return f;
     }
 
     @Override
-    public void operacao(Fantasia f, String operacao) {
-        String sql = null;
-        List<Object> params = new ArrayList<>();  
+    public void operacao(Fantasia f, String operacao) throws ServletException {
+        params.clear();
         if(operacao.equals("Excluir")){
             sql = "DELETE FROM "+tabela
                     +" WHERE ID_FANTASIA = ?";
@@ -104,8 +80,24 @@ public class FantasiaDAO extends GenericoDAO<Fantasia>{
         try {
             super.operacaoClasse(sql, params);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
     }
-    
+
+    @Override
+    protected RowMapping getMapa() {
+        return new RowMapping() {
+            @Override
+            public Object mapeamento(ResultSet rs) throws SQLException {
+                Fantasia f = new Fantasia();
+                f.setCodFantasia(rs.getInt("ID_FANTASIA"));
+                f.setNome(rs.getString("NOME"));
+                f.setCategoria(rs.getString("CATEGORIA"));
+                f.setTamanho(rs.getString("TAMANHO"));
+                f.setNomeEstado(rs.getString("ESTADO"));
+                f.setDiaria(rs.getDouble("DIARIA"));
+                return f;
+            }
+        };
+    }
 }

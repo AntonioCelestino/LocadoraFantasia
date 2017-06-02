@@ -1,8 +1,7 @@
 package Controller;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.reflect.InvocationTargetException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +18,10 @@ public class FrontController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.NoSuchMethodException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException{
+            throws ServletException, IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
         request.setCharacterEncoding( "UTF-8" );
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
@@ -39,6 +39,12 @@ public class FrontController extends HttpServlet {
             }else if(acao.equals("confirmarOperacao")){
                 actionObject.confirmarOperacao(request, response);
             }
+            /*
+            Class[] cArg = new Class[2];
+            cArg[0] = HttpServletRequest.class;
+            cArg[1] = HttpServletResponse.class;
+            Method mth = actionObject.getClass().getDeclaredMethod(acao, cArg);
+            mth.invoke(actionObject, (Object[]) cArg);*/
         }
     }
 
@@ -56,8 +62,8 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new ServletException(ex);
         }
     }
 
@@ -74,8 +80,8 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new ServletException(ex);
         }
     }
 

@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletException;
 
 public abstract class GenericoDAO <T>{
     
-    protected List<T> obterClasses(String sql, List<Object> params, RowMapping rm) throws ClassNotFoundException, SQLException{
+    protected List<T> obterClasses(String sql, List<Object> params, RowMapping rm) throws ClassNotFoundException, SQLException, ServletException{
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs;
@@ -31,7 +32,7 @@ public abstract class GenericoDAO <T>{
         return rows;
     }
     
-    protected T obterClasse(String sql, List<Object> params, RowMapping rm) throws SQLException, ClassNotFoundException{
+    protected T obterClasse(String sql, List<Object> params, RowMapping rm) throws SQLException, ClassNotFoundException, ServletException{
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -82,7 +83,8 @@ public abstract class GenericoDAO <T>{
         }
     }
     
-    public abstract List<T> obterTs();
-    public abstract T obterT(int codClasse);
-    public abstract void operacao(T t, String operacao);
+    public abstract List<T> obterTs() throws ServletException;
+    public abstract T obterT(int codClasse) throws ServletException;
+    public abstract void operacao(T t, String operacao) throws ServletException;
+    protected abstract RowMapping getMapa() throws ServletException;
 }

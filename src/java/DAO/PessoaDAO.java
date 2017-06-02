@@ -5,68 +5,49 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.ServletException;
 
 public class PessoaDAO extends GenericoDAO<Pessoa>{
 
     private static PessoaDAO instance = new PessoaDAO();
     private final String tabela = "PESSOA";
+    private final List<Object> params = new ArrayList<>();
+    private String sql = null;
     
     public static PessoaDAO getInstance() {
         return instance;
     }
 
     @Override
-    public List<Pessoa> obterTs() {
+    public List<Pessoa> obterTs() throws ServletException{
+        params.clear();
         List<Pessoa> ps = new ArrayList<>();
-        List<Object> params = new ArrayList<>();
+        sql = "SELECT * FROM "+tabela;
         try {
-            ps = super.obterClasses("SELECT * FROM "+tabela, params, new RowMapping() {
-                @Override
-                public Object mapeamento(ResultSet rs) throws SQLException {
-                    Pessoa p = new Pessoa();
-                    p.setCodPessoa(rs.getInt("ID_PESSOA"));
-                    p.setCpf(rs.getString("CPF"));
-                    p.setNome(rs.getString("NOME"));
-                    p.setEmail(rs.getString("EMAIL"));
-                    return p;
-                }
-            });
+            ps = super.obterClasses(sql, params, getMapa());
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
         return ps;
     }
 
     @Override
-    public Pessoa obterT(int codPessoa) {
+    public Pessoa obterT(int codPessoa) throws ServletException{
+        params.clear();
         Pessoa p = new Pessoa();
-        String sql = "SELECT * FROM "+tabela+" WHERE ID_PESSOA = ?";
-        List<Object> params = new ArrayList<>();
+        sql = "SELECT * FROM "+tabela+" WHERE ID_PESSOA = ?";
         params.add(codPessoa);
         try {
-            p = super.obterClasse(sql, params, new RowMapping() {
-                @Override
-                public Object mapeamento(ResultSet rs) throws SQLException {
-                    Pessoa p = new Pessoa();
-                    p.setCodPessoa(rs.getInt("ID_PESSOA"));
-                    p.setCpf(rs.getString("CPF"));
-                    p.setNome(rs.getString("NOME"));
-                    p.setEmail(rs.getString("EMAIL"));
-                    return p;
-                }
-            });
+            p = super.obterClasse(sql, params, getMapa());
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
         return p;
     }
 
     @Override
-    public void operacao(Pessoa p, String operacao) {
-        String sql = null;
-        List<Object> params = new ArrayList<>();  
+    public void operacao(Pessoa p, String operacao) throws ServletException{ 
+        params.clear();
         if(operacao.equals("Excluir")){
             sql = "DELETE FROM "+tabela
                     +" WHERE ID_PESSOA = ?";
@@ -93,8 +74,22 @@ public class PessoaDAO extends GenericoDAO<Pessoa>{
         try {
             super.operacaoClasse(sql, params);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
     }
     
+    @Override
+    protected RowMapping getMapa(){
+        return new RowMapping() {
+            @Override
+            public Object mapeamento(ResultSet rs) throws SQLException {
+                Pessoa p = new Pessoa();
+                p.setCodPessoa(rs.getInt("ID_PESSOA"));
+                p.setCpf(rs.getString("CPF"));
+                p.setNome(rs.getString("NOME"));
+                p.setEmail(rs.getString("EMAIL"));
+                return p;
+            }
+        };
+    }
 }

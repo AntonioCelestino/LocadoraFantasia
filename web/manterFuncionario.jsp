@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>Manter Funcionario - ${operacao}</h1>
-        <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${funcionario.codFuncionario}" method="post">
+        <form action="FrontController?action=Funcionario&acao=confirmarOperacao&operacao=${operacao}&codFuncionario=${funcionario.codFuncionario}" method="post">
             <table>
                 <tr> 
                     <td><hr />Escolha a Pessoa:
@@ -24,13 +24,13 @@
                 <tr> 
                     <td>Cargo</td> 
                     <td> 
-                        <input type="radio" name="opt_cargo" value="Gerente" <c:if test="${funcionario.tipo == 'Gerente'}"> checked</c:if>>Gerente
-                        <br /><input type="radio" name="opt_cargo" value="Vendedor" <c:if test="${funcionario.tipo == 'Vendedor'}"> checked</c:if>>Vendedor
-                        <br /><input type="radio" name="opt_cargo" value="Recepcionista" <c:if test="${funcionario.tipo == 'Recepcionista'}"> checked</c:if>>Recepcionista
+                        <input type="radio" name="optCargo" value="Gerente" <c:if test="${funcionario.cargo == 'Gerente'}"> checked</c:if>>Gerente
+                        <br /><input type="radio" name="optCargo" value="Vendedor" <c:if test="${funcionario.cargo == 'Vendedor'}"> checked</c:if>>Vendedor
+                        <br /><input type="radio" name="optCargo" value="Recepcionista" <c:if test="${funcionario.cargo == 'Recepcionista'}"> checked</c:if>>Recepcionista
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="submit"></td>
+                    <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
             </table>
         </form>

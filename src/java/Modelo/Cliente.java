@@ -1,10 +1,19 @@
 package Modelo;
 
 public class Cliente {
+    private int codCliente;
     private String tipo;
     private Pessoa pessoa;
 
     public Cliente() {
+    }
+
+    public int getCodCliente() {
+        return codCliente;
+    }
+
+    public void setCodCliente(int codCliente) {
+        this.codCliente = codCliente;
     }
 
     public String getTipo() {

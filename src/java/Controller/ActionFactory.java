@@ -1,6 +1,7 @@
 package Controller;
 
 import Modelo.FantasiaEstado;
+import Modelo.Promocao;
 
 public class ActionFactory {
     public static Action create(String nomeClasse){
@@ -31,5 +32,20 @@ public class ActionFactory {
         if(!(objeto instanceof FantasiaEstado)) return null;
         estadoObject = (FantasiaEstado) objeto;
         return estadoObject;
+    }
+    
+    public static Promocao promocao(String nomeClasse){
+        Promocao promocaoObject;
+        Class classe;
+        Object objeto;
+        try{
+            classe = Class.forName(nomeClasse);
+            objeto = classe.newInstance();
+        }catch(ClassNotFoundException | IllegalAccessException | InstantiationException ex){
+            return null;
+        }
+        if(!(objeto instanceof Promocao)) return null;
+        promocaoObject = (Promocao) objeto;
+        return promocaoObject;
     }
 }

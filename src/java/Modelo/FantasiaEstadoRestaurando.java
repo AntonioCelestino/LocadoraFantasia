@@ -15,8 +15,8 @@ public class FantasiaEstadoRestaurando implements FantasiaEstado{
 
     @Override
     public String alugar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoAlugado());
-        return "está "+f.getEstado();
+        //f.setEstado(new FantasiaEstadoAlugado());
+        return "Estado "+f.getEstado()+" não pode mudar para Alugado";
     }
 
     @Override
@@ -27,7 +27,7 @@ public class FantasiaEstadoRestaurando implements FantasiaEstado{
 
     @Override
     public String restaurar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoRestaurando());
+        //f.setEstado(new FantasiaEstadoRestaurando());
         return "já está "+f.getEstado();
     }
     

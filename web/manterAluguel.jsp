@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>Manter Aluguel - ${operacao}</h1>
-        <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${aluguel.codAluguel}" method="post">
+        <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${aluguel.codAluguel}&btnFinalizar=" method="post">
             <table>
                 <tr> 
                     <td><hr />Escolha a Pessoa:
@@ -33,27 +33,31 @@
                 </tr>
                 <tr>
                     <td>Data do Aluguel</td>
-                    <td><input type="text" name="txtDataAluguel" value="${aluguel.dataAluguel}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
+                    <td><input type="text" name="txtDataAluguel" value="${aluguel.dtAluguel}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
                 </tr>
                 <tr>
                     <td>Data da Devolução</td>
-                    <td><input type="text" name="txtDataDevolucao" value="${aluguel.dataDevolucao}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
+                    <td><input type="text" name="txtDataDevolucao" value="${aluguel.dtDevolucao}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
                 </tr>
                 <tr>
                     <td>Preco do Aluguel</td>
-                    <td><input type="text" name="txtPreco" value="${aluguel.precoAluguel}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
+                    <td><input type="text" name="txtPrecoAluguel" value="${aluguel.precoAluguel}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
                 </tr>
                 <tr> 
-                    <td>Promocao</td> 
+                    <td>Promoção</td> 
                     <td> 
-                        <input type="radio" name="opt_promocao" value="Carnaval" <c:if test="${aluguel.promocao == 'Carnaval'}"> checked</c:if>>Carnaval
-                        <br /><input type="radio" name="opt_promocao" value="ComicCon" <c:if test="${aluguel.promocao == 'ComicCon'}"> checked</c:if>>ComicCon
+                        <input type="radio" name="optPromocao" value="" <c:if test="${aluguel.promocao == ''}"> checked</c:if>>Nenhuma
+                        <br/><input type="radio" name="optPromocao" value="Carnaval" <c:if test="${aluguel.promocao == 'Carnaval'}"> checked</c:if>>Carnaval
+                        <br/><input type="radio" name="optPromocao" value="ComicCon" <c:if test="${aluguel.promocao == 'ComicCon'}"> checked</c:if>>ComicCon
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="submit"></td>
+                    <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
             </table>
+        </form>
+        <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${aluguel.codAluguel}&btnFinalizar=finalizarAluguel" method="post">
+            <input type="submit" value="Finalizar Aluguel">
         </form>
     </body>
 </html>

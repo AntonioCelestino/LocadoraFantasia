@@ -1,7 +1,9 @@
 package Action;
 
 import Controller.Action;
+import DAO.FuncionarioDAO;
 import DAO.PessoaDAO;
+import Modelo.Funcionario;
 import Modelo.Pessoa;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -9,15 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PessoaAction implements Action{
+public class FuncionarioAction implements Action{
 
-    private Pessoa pessoa = new Pessoa();
+    private Funcionario funcionario = new Funcionario();
     
     @Override
     public void pesquisar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
         try {
-            request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
-            RequestDispatcher view = request.getRequestDispatcher("/pesquisaPessoas.jsp");
+            request.setAttribute("funcionarios", FuncionarioDAO.getInstance().obterTs());
+            RequestDispatcher view = request.getRequestDispatcher("/pesquisaFuncionarios.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
         }
@@ -28,12 +30,13 @@ public class PessoaAction implements Action{
         try{
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
+            request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
             if(!operacao.equals("Incluir")){
-                int codPessoa = Integer.parseInt(request.getParameter("codPessoa"));
-                pessoa = (Pessoa) PessoaDAO.getInstance().obterT(codPessoa);
-                request.setAttribute("pessoa", pessoa);
+                int codFuncionario = Integer.parseInt(request.getParameter("codFuncionario"));
+                funcionario = (Funcionario) FuncionarioDAO.getInstance().obterT(codFuncionario);
+                request.setAttribute("funcionario", funcionario);
             }
-            RequestDispatcher view = request.getRequestDispatcher("/manterPessoa.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("/manterFuncionario.jsp");
             view.forward(request, response);
         }catch(ServletException ex){
             throw ex;
@@ -46,15 +49,14 @@ public class PessoaAction implements Action{
     public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
         String operacao = request.getParameter("operacao");
         if(!operacao.equals("Incluir")){
-            int codPessoa = Integer.parseInt(request.getParameter("codPessoa"));
-            pessoa.setCodPessoa(codPessoa);
+            int codFuncionario = Integer.parseInt(request.getParameter("codFuncionario"));
+            funcionario.setCodFuncionario(codFuncionario);
         }
-        pessoa.setCpf(request.getParameter("txtCPF"));
-        pessoa.setNome(request.getParameter("txtNome"));
-        pessoa.setEmail(request.getParameter("txtEmail"));
+        funcionario.setCargo(request.getParameter("optCargo"));
+        funcionario.setPessoa((Pessoa) PessoaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optPessoa"))));
         try{
-            PessoaDAO.getInstance().operacao(pessoa, operacao);
-            response.sendRedirect("FrontController?action=Pessoa&acao=pesquisar");
+            FuncionarioDAO.getInstance().operacao(funcionario, operacao);
+            response.sendRedirect("FrontController?action=Funcionario&acao=pesquisar");
         }catch(IOException ex){
             throw new ServletException(ex);
         }

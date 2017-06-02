@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>Manter Cliente - ${operacao}</h1>
-        <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${cliente.codCliente}" method="post">
+        <form action="FrontController?action=Cliente&acao=confirmarOperacao&operacao=${operacao}&codCliente=${cliente.codCliente}" method="post">
             <table>
                 <tr> 
                     <td><hr />Escolha a Pessoa:
@@ -24,12 +24,12 @@
                 <tr> 
                     <td>Tipo</td> 
                     <td> 
-                        <input type="radio" name="opt_tipo" value="Comum" <c:if test="${cliente.tipo == 'Comum'}"> checked</c:if>>Comum
-                        <br /><input type="radio" name="opt_tipo" value="Vip" <c:if test="${cliente.tipo == 'Vip'}"> checked</c:if>>Vip
+                        <input type="radio" name="optTipo" value="Comum" <c:if test="${cliente.tipo == 'Comum'}"> checked</c:if>>Comum
+                        <br /><input type="radio" name="optTipo" value="Vip" <c:if test="${cliente.tipo == 'Vip'}"> checked</c:if>>Vip
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="submit"></td>
+                    <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
             </table>
         </form>

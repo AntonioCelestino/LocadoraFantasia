@@ -4,7 +4,7 @@ public class PromocaoCarnaval implements Promocao{
 
     @Override
     public String getPromocao() {
-        return "Promoção de Carnaval";
+        return "Carnaval";
     }
 
     @Override

@@ -1,10 +1,19 @@
 package Modelo;
 
 public class Funcionario {
+    private int codFuncionario;
     private String cargo;
     private Pessoa pessoa;
 
     public Funcionario() {
+    }
+
+    public int getCodFuncionario() {
+        return codFuncionario;
+    }
+
+    public void setCodFuncionario(int codFuncionario) {
+        this.codFuncionario = codFuncionario;
     }
 
     public String getCargo() {
