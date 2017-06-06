@@ -1,34 +1,34 @@
 package Modelo;
 
-public class FantasiaEstadoDisponivel implements FantasiaEstado{
+public class FantasiaEstadoDescartada implements FantasiaEstado{
 
     @Override
     public String getEstado() {
-        return "Disponível";
+        return "Descartada";
     }
 
     @Override
     public boolean disponibilizar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoDisponivel());
-        return true;
+        return false;
     }
 
     @Override
     public boolean alugar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoAlugada());
-        return true;
+        //f.setEstado(new FantasiaEstadoAlugado());
+        return false;
     }
 
     @Override
     public boolean descartar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoDescartada());
+        //f.setEstado(new FantasiaEstadoDescartada());
         return true;
     }
 
     @Override
     public boolean restaurar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoRestaurando());
-        return true;
+        //f.setEstado(new FantasiaEstadoRestaurando());
+        return false;
     }
     
 }

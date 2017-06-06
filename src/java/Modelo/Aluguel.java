@@ -17,7 +17,7 @@ public class Aluguel {
     private Promocao promocao;
     private double precoAluguel;
     
-    private final DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private final DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     public Aluguel() {
     }
@@ -112,7 +112,7 @@ public class Aluguel {
         //Cálculo do preço do aluguel da fantasia
         //Preco fixo + (Preco diario * número de dias)
         if(dataDevolucao == null){
-            setDataDevolucao(new Date());
+            setDataDevolucao(new Date());      
         }      
         long dt = (dataDevolucao.getTime() - dataAluguel.getTime()) + 3600000;
         Double precoFixo = 10.00;

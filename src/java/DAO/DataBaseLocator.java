@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.servlet.ServletException;
 
 public class DataBaseLocator {
     private static DataBaseLocator instance = new DataBaseLocator();
@@ -18,12 +19,13 @@ public class DataBaseLocator {
         return conn;
     }
     
-    public static void closeResources(Connection conn, Statement st){
+    public static void closeResources(Connection conn, Statement st) throws ServletException{
         try {
             if(st!=null) st.close();
             if(conn!=null) conn.close();
 
         } catch(SQLException e) {
+            throw new ServletException(e);
         }
     }
 }

@@ -1,6 +1,7 @@
 package DAO;
 
 import Modelo.Fantasia;
+import Modelo.FantasiaMemento;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,20 @@ import javax.servlet.ServletException;
 
 public class FantasiaDAO extends GenericoDAO<Fantasia>{
 
+    private final ArrayList<FantasiaMemento> estadosSalvos = new ArrayList<>();
+    
+    public FantasiaMemento getEstadoAnterior(){
+        return estadosSalvos.get(estadosSalvos.size()-1);
+    }
+    
+    public void removerEstadosAnteriores(){
+        this.estadosSalvos.removeAll(estadosSalvos);
+    }
+    
+    public void setEstadoAnterior(FantasiaMemento fm){
+        this.estadosSalvos.add(fm);
+    }
+    
     private static FantasiaDAO instance = new FantasiaDAO();
     private final String tabela = "FANTASIA";
     private final List<Object> params = new ArrayList<>();
@@ -56,7 +71,7 @@ public class FantasiaDAO extends GenericoDAO<Fantasia>{
             params.add(f.getNome());
             params.add(f.getCategoria());
             params.add(f.getTamanho());
-            params.add(f.getEstado());
+            params.add(f.getNomeEstado());
             params.add(f.getDiaria());
             if(operacao.equals("Incluir")){
                 sql = "INSERT INTO "+tabela+" ("

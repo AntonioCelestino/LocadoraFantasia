@@ -20,6 +20,7 @@ public class PessoaAction implements Action{
             RequestDispatcher view = request.getRequestDispatcher("/pesquisaPessoas.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
 

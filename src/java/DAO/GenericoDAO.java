@@ -25,7 +25,7 @@ public abstract class GenericoDAO <T>{
                 rows.add((T) rm.mapeamento(rs));  
             } 
         }catch(ClassNotFoundException | SQLException e){
-            throw e;
+            throw new ServletException(e);
         }finally{
             DataBaseLocator.closeResources(conn, pst);
         }
@@ -47,14 +47,14 @@ public abstract class GenericoDAO <T>{
             row = (T) rm.mapeamento(rs);
             conn.commit(); 
         } catch(ClassNotFoundException | SQLException e) {
-            throw e;
+            throw new ServletException(e);
         } finally {
             DataBaseLocator.closeResources(conn, pst);
         }
         return row;
     }
     
-    protected void operacaoClasse(String sql, List<Object> params) throws SQLException, ClassNotFoundException{
+    protected void operacaoClasse(String sql, List<Object> params) throws SQLException, ClassNotFoundException, ServletException{
         Connection conn = null;
         PreparedStatement pst = null;
         try {
@@ -65,7 +65,7 @@ public abstract class GenericoDAO <T>{
             pst.execute();  
             conn.commit(); 
         } catch(ClassNotFoundException | SQLException e) {
-            throw e;
+            throw new ServletException(e);
         } finally {
             DataBaseLocator.closeResources(conn, pst);
         }

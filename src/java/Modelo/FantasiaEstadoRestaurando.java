@@ -8,27 +8,27 @@ public class FantasiaEstadoRestaurando implements FantasiaEstado{
     }
 
     @Override
-    public String disponibilizar(Fantasia f) {
+    public boolean disponibilizar(Fantasia f) {
         f.setEstado(new FantasiaEstadoDisponivel());
-        return "está "+f.getEstado();
+        return true;
     }
 
     @Override
-    public String alugar(Fantasia f) {
+    public boolean alugar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoAlugado());
-        return "Estado "+f.getEstado()+" não pode mudar para Alugado";
+        return false;
     }
 
     @Override
-    public String descartar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoDescartado());
-        return "está "+f.getEstado();
+    public boolean descartar(Fantasia f) {
+        f.setEstado(new FantasiaEstadoDescartada());
+        return true;
     }
 
     @Override
-    public String restaurar(Fantasia f) {
+    public boolean restaurar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoRestaurando());
-        return "já está "+f.getEstado();
+        return true;
     }
     
 }

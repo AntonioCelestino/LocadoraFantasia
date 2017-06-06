@@ -26,6 +26,7 @@ public class AluguelAction implements Action{
             RequestDispatcher view = request.getRequestDispatcher("/pesquisaAlugueis.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
 
@@ -74,13 +75,21 @@ public class AluguelAction implements Action{
             }else{
                 aluguel.setPromocao("");
             }
-            aluguel.setPrecoAluguel(Double.parseDouble(request.getParameter("txtPrecoAluguel")));
+            if(request.getParameter("txtPrecoAluguel").equals("")){
+                aluguel.setPrecoAluguel(0);
+            }else{
+                aluguel.setPrecoAluguel(Double.parseDouble(request.getParameter("txtPrecoAluguel")));
+            }
             aluguel.setPessoa((Pessoa) PessoaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optPessoa"))));
             aluguel.setFantasia((Fantasia) FantasiaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optFantasia"))));
             if(operacao.equals("Incluir")){
                 Fantasia f = aluguel.getFantasia();
-                f.alugar();
-                FantasiaDAO.getInstance().operacao(f, "Editar");
+                String msg = f.alugar();
+                if(!msg.equals("")){
+                    throw new ServletException(msg);
+                }else{
+                    FantasiaDAO.getInstance().operacao(f, "Editar");
+                }
             }
             try{
                 AluguelDAO.getInstance().operacao(aluguel, operacao);

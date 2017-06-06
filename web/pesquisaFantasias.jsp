@@ -21,7 +21,7 @@
                 <tr>
                     <td><c:out value="${fantasia.codFantasia}"/></td>
                     <td><c:out value="${fantasia.nome}"/></td>
-                    <td><c:out value="${fantasia.estado}"/></td>
+                    <td><c:out value="${fantasia.nomeEstado}"/></td>
                     <td>
                         <a href="FrontController?action=Fantasia&acao=prepararOperacao&operacao=Editar&codFantasia=<c:out value="${fantasia.codFantasia}"/>">Editar</a>
                     </td>

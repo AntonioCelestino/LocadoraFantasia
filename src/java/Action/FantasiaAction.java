@@ -3,6 +3,7 @@ package Action;
 import Controller.Action;
 import DAO.FantasiaDAO;
 import Modelo.Fantasia;
+import Modelo.FantasiaEstado;
 import Modelo.FantasiaEstadoDisponivel;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -21,6 +22,7 @@ public class FantasiaAction implements Action{
             RequestDispatcher view = request.getRequestDispatcher("/pesquisaFantasias.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
 
@@ -45,42 +47,63 @@ public class FantasiaAction implements Action{
 
     @Override
     public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
-        String operacao = request.getParameter("operacao");
-        if(!operacao.equals("Incluir")){
-            int codFantasia = Integer.parseInt(request.getParameter("codFantasia"));
-            fantasia.setCodFantasia(codFantasia);
-            fantasia = (Fantasia) FantasiaDAO.getInstance().obterT(codFantasia);
-            String estado = request.getParameter("optEstado");
-            /*fantasia.getClass().getMethod(estado, String.class);*/
-            switch (estado) {
-                case "disponibilizar":
-                    fantasia.disponibilizar();
-                    break;
-                case "alugar":
-                    fantasia.alugar();
-                    break;
-                case "descartar":
-                    fantasia.descartar();
-                    break;
-                case "restaurar":
-                    fantasia.restaurar();
-                    break;
-                default:
-                    break;
-            }
+        if(request.getParameter("btnMemento").equals("restaurarEstado")){
+            restaurarEstado(request, response);
         }else{
-            fantasia.setEstado(new FantasiaEstadoDisponivel());
-        }
-        fantasia.setNome(request.getParameter("txtNome"));
-        fantasia.setCategoria(request.getParameter("txtCategoria"));
-        fantasia.setTamanho(request.getParameter("txtTamanho"));
-        fantasia.setDiaria(Double.parseDouble(request.getParameter("txtDiaria")));
-        try{
-            FantasiaDAO.getInstance().operacao(fantasia, operacao);
-            response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
-        }catch(IOException ex){
-            throw new ServletException(ex);
+            String operacao = request.getParameter("operacao");
+            if(!operacao.equals("Incluir")){
+                int codFantasia = Integer.parseInt(request.getParameter("codFantasia"));
+                fantasia = (Fantasia) FantasiaDAO.getInstance().obterT(codFantasia);
+                String estado = request.getParameter("optEstado");
+                /*fantasia.getClass().getMethod(estado, String.class);*/
+                FantasiaEstado estadoAnterior = fantasia.getEstado();
+                String msg = "";
+                switch (estado) {
+                    case "disponibilizar":
+                        msg = fantasia.disponibilizar();
+                        break;
+                    case "alugar":
+                        msg = fantasia.alugar();
+                        break;
+                    case "descartar":
+                        msg = fantasia.descartar();
+                        break;
+                    case "restaurar":
+                        msg = fantasia.restaurar();
+                        break;
+                    default:
+                        break;
+                }
+                if(!msg.equals("")){
+                    throw new ServletException(msg);
+                }else{
+                    FantasiaDAO.getInstance().setEstadoAnterior(fantasia.saveToMemento(estadoAnterior));
+                }
+            }else{
+                fantasia.setEstado(new FantasiaEstadoDisponivel());
+            }
+            fantasia.setNome(request.getParameter("txtNome"));
+            fantasia.setCategoria(request.getParameter("txtCategoria"));
+            fantasia.setTamanho(request.getParameter("txtTamanho"));
+            fantasia.setDiaria(Double.parseDouble(request.getParameter("txtDiaria")));
+            try{
+                FantasiaDAO.getInstance().operacao(fantasia, operacao);
+                response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
+            }catch(IOException ex){
+                throw new ServletException(ex);
+            }
         }
     }
     
+    private void restaurarEstado(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String operacao = request.getParameter("operacao");
+        if(operacao.equals("Editar")){
+            int codFantasia = Integer.parseInt(request.getParameter("codFantasia"));
+            fantasia = (Fantasia) FantasiaDAO.getInstance().obterT(codFantasia);
+            fantasia.restoreFromMemento(FantasiaDAO.getInstance().getEstadoAnterior());
+            FantasiaDAO.getInstance().operacao(fantasia, operacao);
+            FantasiaDAO.getInstance().removerEstadosAnteriores();
+        }
+        response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
+    }
 }

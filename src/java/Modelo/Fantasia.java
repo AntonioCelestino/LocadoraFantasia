@@ -48,8 +48,8 @@ public class Fantasia {
         this.tamanho = tamanho;
     }
 
-    public String getEstado() {
-        return estado.getEstado();
+    public FantasiaEstado getEstado() {
+        return estado;
     }
     
     public String getNomeEstado() {
@@ -77,19 +77,36 @@ public class Fantasia {
     }
     
     public String disponibilizar(){
-        return estado.disponibilizar(this);
+        if(!estado.disponibilizar(this)){
+            return "<b>Fantasia "+nome+" não pode ser Disponibilizada, pois está "+estado.getEstado()+".</b>";
+        }else{return "";}
     }
     
     public String descartar(){
-        return estado.descartar(this);
+        if(!estado.descartar(this)){
+            return "<b>Fantasia "+nome+" não pode ser Descartada, pois está "+estado.getEstado()+".</b>";
+        }else{return "";}
     }
     
     public String alugar(){
-        return estado.alugar(this);
+        if(!estado.alugar(this)){
+            return "<b>Fantasia "+nome+" não pode ser Alugada, pois está "+estado.getEstado()+".</b>";
+        }else{return "";}
     }
     
     public String restaurar(){
-        return estado.restaurar(this);
+        if(!estado.restaurar(this)){
+            return "<b>Fantasia "+nome+" não pode ser Restaurada, pois está "+estado.getEstado()+".</b>";
+        }else{return "";}
+    }
+    
+    public FantasiaMemento saveToMemento(FantasiaEstado estadoAnterior){
+        return new FantasiaMemento(estadoAnterior);
+    }
+    
+    public void restoreFromMemento(FantasiaMemento memento){
+        estado = memento.getEstadoSalvo();
+        nomeEstado = estado.getEstado();
     }
     
     private String removeAcentos(String str) {

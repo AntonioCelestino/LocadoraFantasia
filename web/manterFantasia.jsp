@@ -10,7 +10,7 @@
     </head>
     <body>
         <h1>Manter Fantasia - ${operacao}</h1>
-        <form action="FrontController?action=Fantasia&acao=confirmarOperacao&operacao=${operacao}&codFantasia=${fantasia.codFantasia}" method="post">
+        <form action="FrontController?action=Fantasia&acao=confirmarOperacao&operacao=${operacao}&codFantasia=${fantasia.codFantasia}&btnMemento=" method="post">
             <table>
                 <tr>
                     <td>Nome</td> 
@@ -32,14 +32,17 @@
                     <td>Estado</td> 
                     <td> 
                         <input type="radio" name="optEstado" value="disponibilizar" <c:if test="${fantasia.nomeEstado == 'Disponível'}"> checked</c:if>>Disponivel
-                        <br /><input type="radio" name="optEstado" value="alugar" <c:if test="${fantasia.nomeEstado == 'Alugado'}"> checked</c:if>>Alugado
+                        <br /><input type="radio" name="optEstado" value="alugar" <c:if test="${fantasia.nomeEstado == 'Alugada'}"> checked</c:if>>Alugada
                         <br /><input type="radio" name="optEstado" value="restaurar" <c:if test="${fantasia.nomeEstado == 'Restaurando'}"> checked</c:if>>Restaurando
-                        <br /><input type="radio" name="optEstado" value="descartar" <c:if test="${fantasia.nomeEstado == 'Descartado'}"> checked</c:if>>Descartado
+                        <br /><input type="radio" name="optEstado" value="descartar" <c:if test="${fantasia.nomeEstado == 'Descartada'}"> checked</c:if>>Descartada
                     </td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
             </table>
+        </form>
+        <form action="FrontController?action=Fantasia&acao=confirmarOperacao&operacao=${operacao}&codFantasia=${fantasia.codFantasia}&btnMemento=restaurarEstado" method="post">
+            <input type="submit" value="Restaurar Estado Fantasia">
         </form>
 </html>

@@ -22,6 +22,7 @@ public class FuncionarioAction implements Action{
             RequestDispatcher view = request.getRequestDispatcher("/pesquisaFuncionarios.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
 

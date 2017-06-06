@@ -22,6 +22,7 @@ public class ClienteAction implements Action{
             RequestDispatcher view = request.getRequestDispatcher("/pesquisaClientes.jsp");
             view.forward(request, response);
         } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
 

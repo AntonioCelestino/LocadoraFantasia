@@ -1,21 +1,21 @@
 package Modelo;
 
-public class FantasiaEstadoDisponivel implements FantasiaEstado{
+public class FantasiaEstadoAlugada implements FantasiaEstado{
 
     @Override
     public String getEstado() {
-        return "Disponível";
+        return "Alugada";
     }
 
     @Override
     public boolean disponibilizar(Fantasia f) {
-        //f.setEstado(new FantasiaEstadoDisponivel());
+        f.setEstado(new FantasiaEstadoDisponivel());
         return true;
     }
 
     @Override
     public boolean alugar(Fantasia f) {
-        f.setEstado(new FantasiaEstadoAlugada());
+        //f.setEstado(new FantasiaEstadoAlugada());
         return true;
     }
 
