@@ -4,6 +4,8 @@ import Controller.Action;
 import DAO.ClienteDAO;
 import DAO.PessoaDAO;
 import Modelo.Cliente;
+import Modelo.ClienteComum;
+import Modelo.ClienteVip;
 import Modelo.Pessoa;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -34,7 +36,13 @@ public class ClienteAction implements Action{
             request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
             if(!operacao.equals("Incluir")){
                 int codCliente = Integer.parseInt(request.getParameter("codCliente"));
-                cliente = (Cliente) ClienteDAO.getInstance().obterT(codCliente);
+                cliente = ClienteDAO.getInstance().obterT(codCliente);
+                if(cliente.getTipo().equals("Vip")){
+                    cliente = new ClienteVip(cliente);
+                }else if(cliente.getTipo().equals("Comum")){
+                    cliente = new ClienteComum(cliente);
+                }
+                request.setAttribute("mensagem", cliente.getDadosCliente());
                 request.setAttribute("cliente", cliente);
             }
             RequestDispatcher view = request.getRequestDispatcher("/manterCliente.jsp");

@@ -9,6 +9,7 @@
     </head>
     <body>
         <h1>Manter Cliente - ${operacao}</h1>
+        <h3>Mensagem: ${mensagem}</h3>
         <form action="FrontController?action=Cliente&acao=confirmarOperacao&operacao=${operacao}&codCliente=${cliente.codCliente}" method="post">
             <table>
                 <tr> 

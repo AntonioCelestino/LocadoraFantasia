@@ -7,7 +7,8 @@ public class FuncionarioGerente extends Modelo.Funcionario{
         setFuncionarioSuperior(superior);
     }
 
+    @Override
     public String getDescricaoCargo(){
-        return "Gerente";
+        return "Gerente negocia preço do aluguel";
     }  
 }

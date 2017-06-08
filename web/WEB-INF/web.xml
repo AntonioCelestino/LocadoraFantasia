@@ -8,6 +8,10 @@
         <servlet-name>TratamentoExcecao</servlet-name>
         <servlet-class>Exception.TratamentoExcecao</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListarFantasias</servlet-name>
+        <servlet-class>Controller.ListarFantasias</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/FrontController</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>TratamentoExcecao</servlet-name>
         <url-pattern>/TratamentoExcecao</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarFantasias</servlet-name>
+        <url-pattern>/ListarFantasias</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

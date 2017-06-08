@@ -13,9 +13,14 @@ public class DataBaseLocator {
     }
     private DataBaseLocator(){}
     
-    public Connection getConnection() throws SQLException, ClassNotFoundException{
+    public Connection getConnection() throws SQLException, ClassNotFoundException, ServletException{
         Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aluguel_fantasias", "root", "");
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/aluguel_fantasias", "root", "");
+        } catch (SQLException e) {
+            throw new ServletException("<b>Erro ao estabelecer conexão com o banco de dados</b>", e);
+        }
         return conn;
     }
     
@@ -23,7 +28,6 @@ public class DataBaseLocator {
         try {
             if(st!=null) st.close();
             if(conn!=null) conn.close();
-
         } catch(SQLException e) {
             throw new ServletException(e);
         }

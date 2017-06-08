@@ -1,10 +1,5 @@
 package Padroes;
 
-import Modelo.Cliente;
-import Modelo.Fantasia;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Executar {
 
     /**

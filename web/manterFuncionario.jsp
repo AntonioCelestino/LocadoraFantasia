@@ -9,6 +9,7 @@
     </head>
     <body>
         <h1>Manter Funcionario - ${operacao}</h1>
+        <h3>Mensagem: ${mensagem}</h3>
         <form action="FrontController?action=Funcionario&acao=confirmarOperacao&operacao=${operacao}&codFuncionario=${funcionario.codFuncionario}" method="post">
             <table>
                 <tr> 

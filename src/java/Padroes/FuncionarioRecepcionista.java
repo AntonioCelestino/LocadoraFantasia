@@ -7,8 +7,9 @@ public class FuncionarioRecepcionista extends Modelo.Funcionario{
         setFuncionarioSuperior(superior);
     }
 
+    @Override
     public String getDescricaoCargo(){
-        return "Recepcionista";
+        return "Recepcionista atende o cliente";
     } 
     
 }

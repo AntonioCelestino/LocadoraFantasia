@@ -1,9 +1,9 @@
 package Modelo;
 
 public class Cliente {
-    private int codCliente;
+    protected int codCliente;
     private String tipo;
-    private Pessoa pessoa;
+    protected Pessoa pessoa;
 
     public Cliente() {
     }
@@ -30,5 +30,13 @@ public class Cliente {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+    
+    public Integer getDescontoTipo(){
+        return null;
+    }
+    
+    public String getDadosCliente(){
+        return "Cliente "+this.getPessoa().getNome()+" tem "+this.getDescontoTipo()+"% de Desconto pois é "+this.getTipo();
     }
 }
