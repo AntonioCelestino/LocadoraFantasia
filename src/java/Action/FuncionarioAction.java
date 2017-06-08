@@ -5,11 +5,6 @@ import DAO.FuncionarioDAO;
 import DAO.PessoaDAO;
 import Modelo.Funcionario;
 import Modelo.Pessoa;
-import Padroes.Atividade;
-import Padroes.FuncionarioGerente;
-import Padroes.FuncionarioRecepcionista;
-import Padroes.FuncionarioVendedor;
-import Padroes.RolAtividades;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,29 +34,7 @@ public class FuncionarioAction implements Action{
             request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
             if(!operacao.equals("Incluir")){
                 int codFuncionario = Integer.parseInt(request.getParameter("codFuncionario"));
-                funcionario = new FuncionarioGerente(null);
-                funcionario = new FuncionarioVendedor(funcionario);
-                funcionario = new FuncionarioRecepcionista(funcionario);
-                Funcionario f = FuncionarioDAO.getInstance().obterT(codFuncionario);
-                funcionario.setCargo(f.getCargo());
-                funcionario.setCodFuncionario(f.getCodFuncionario());
-                funcionario.setPessoa(f.getPessoa());
-                String msg;
-                switch(funcionario.getCargo()){
-                    case "Recepcionista":
-                        msg = funcionario.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeAtender()));
-                        break;
-                    case "Vendedor":
-                        msg = funcionario.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeVender()));
-                        break;
-                    case "Gerente":
-                        msg = funcionario.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeNegociar()));
-                        break;
-                    default:
-                        msg = "";
-                        break;
-                }
-                request.setAttribute("mensagem", msg);
+                funcionario = FuncionarioDAO.getInstance().obterT(codFuncionario);
                 request.setAttribute("funcionario", funcionario);
             }
             RequestDispatcher view = request.getRequestDispatcher("/manterFuncionario.jsp");

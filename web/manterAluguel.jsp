@@ -9,6 +9,7 @@
     </head>
     <body>
         <h1>Manter Aluguel - ${operacao}</h1>
+        <h3>Mensagem: ${mensagem}</h3>
         <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${aluguel.codAluguel}&btnFinalizar=" method="post">
             <table>
                 <tr> 
@@ -26,7 +27,7 @@
                         <select name="optFantasia" <c:if test="${operacao != 'Incluir'}"> readonly</c:if>>
                             <option value="0" <c:if test="${fantasia.codFantasia == null}"> selected</c:if>> </option>  
                             <c:forEach items="${fantasias}" var="fantasia">
-                                <option value="${fantasia.codFantasia}" <c:if test="${fantasia.codFantasia == fantasia.codFantasia}"> selected</c:if>>${fantasia.nome}</option>  
+                                <option value="${fantasia.codFantasia}" <c:if test="${fantasia.codFantasia == aluguel.fantasia.codFantasia}"> selected</c:if>>${fantasia.nome}</option>  
                             </c:forEach>
                         </select>
                     </td>
@@ -57,7 +58,7 @@
             </table>
         </form>
         <form action="FrontController?action=Aluguel&acao=confirmarOperacao&operacao=${operacao}&codAluguel=${aluguel.codAluguel}&btnFinalizar=finalizarAluguel" method="post">
-            <input type="submit" value="Finalizar Aluguel">
+            <input type="submit" value="Atualizar preço aluguel">
         </form>
     </body>
 </html>

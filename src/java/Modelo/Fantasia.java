@@ -2,8 +2,9 @@ package Modelo;
 
 import Controller.ActionFactory;
 import java.text.Normalizer;
+import java.util.Observable;
 
-public class Fantasia {
+public class Fantasia extends Observable{
     private int codFantasia;
     private String nome;
     private String categoria;
@@ -16,6 +17,10 @@ public class Fantasia {
         this.estado = new FantasiaEstadoDisponivel();
     }
 
+    public Fantasia(String nome){
+        this.nome = nome;
+    }
+    
     public int getCodFantasia() {
         return codFantasia;
     }
@@ -66,6 +71,8 @@ public class Fantasia {
         estado = removeAcentos(estado);
         FantasiaEstado actionObject = ActionFactory.estado("Modelo.FantasiaEstado"+estado);
         this.estado = actionObject;
+        setChanged();
+        notifyObservers();
     }
 
     public double getDiaria() {

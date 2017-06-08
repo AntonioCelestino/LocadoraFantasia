@@ -1,5 +1,10 @@
 package Padroes;
 
+import Modelo.Cliente;
+import Modelo.Fantasia;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Executar {
 
     /**
@@ -17,6 +22,20 @@ public class Executar {
         System.out.println(recepcionista.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeAtender())));
         System.out.println(recepcionista.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeVender())));
         System.out.println(recepcionista.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeNegociar())));
+        System.out.println(gerente.executarAtividade(new Atividade(RolAtividades.getInstance().getTipoAtividadeAtender())));
+        
+         // PADRÃO OBSERVER
+        System.out.println("\n\nImplementação do Padrão Observer\n");
+        
+        List<Fantasia> fantasias = new ArrayList<Fantasia>();
+        Fantasia fantasia = new Fantasia("Wolverine");
+        fantasias.add(fantasia);
+        
+        Cliente cliente = new Cliente("Fulano", fantasias);
+
+        cliente.confereEstado("Disponível");
+        cliente.confereEstado("Alugada");
+        cliente.confereEstado("Disponível");
         
     }
     

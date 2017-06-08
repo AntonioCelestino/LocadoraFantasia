@@ -9,7 +9,7 @@ public class PromocaoComicCon implements Promocao{
 
     @Override
     public double getDesconto() {
-        return 0.15;
+        return 15;
     }
     
 }

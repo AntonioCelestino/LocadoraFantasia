@@ -9,7 +9,7 @@ public class PromocaoCarnaval implements Promocao{
 
     @Override
     public double getDesconto() {
-        return 0.10;
+        return 10;
     }
     
 }

@@ -99,6 +99,10 @@ public class Aluguel {
             this.promocao = null;
         }
     }
+    
+    public Promocao getP(){
+        return promocao;
+    }
 
     public double getPrecoAluguel() {
         return precoAluguel;
@@ -118,7 +122,7 @@ public class Aluguel {
         Double precoFixo = 10.00;
         precoAluguel = precoFixo + (fantasia.getDiaria() * (dt / 86400000L));
         if(promocao != null){
-            precoAluguel = precoAluguel - ((precoAluguel)*(promocao.getDesconto()));
+            precoAluguel = precoAluguel - ((precoAluguel)*((promocao.getDesconto())/100));
         }
     }
 }

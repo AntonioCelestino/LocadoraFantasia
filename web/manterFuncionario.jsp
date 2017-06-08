@@ -9,7 +9,12 @@
     </head>
     <body>
         <h1>Manter Funcionario - ${operacao}</h1>
-        <h3>Mensagem: ${mensagem}</h3>
+        <form action="ChainController?codFuncionario=${funcionario.codFuncionario}" method="post">
+            <input type="radio" name="atividade" value="Negociar">Negociar<br>
+            <input type="radio" name="atividade" value="Vender">Vender<br>
+            <input type="radio" name="atividade" value="Atender">Atender<br>
+            <input type="submit" value="Executar atividade"/>
+        </form>
         <form action="FrontController?action=Funcionario&acao=confirmarOperacao&operacao=${operacao}&codFuncionario=${funcionario.codFuncionario}" method="post">
             <table>
                 <tr> 
@@ -17,7 +22,7 @@
                         <select name="optPessoa" <c:if test="${operacao != 'Incluir'}"> readonly</c:if>>
                             <option value="0" <c:if test="${pessoa.codPessoa == null}"> selected</c:if>> </option>  
                             <c:forEach items="${pessoas}" var="pessoa">
-                                <option value="${pessoa.codPessoa}" <c:if test="${pessoa.codPessoa == pessoa.codPessoa}"> selected</c:if>>${pessoa.nome}</option>  
+                                <option value="${pessoa.codPessoa}" <c:if test="${pessoa.codPessoa == funcionario.pessoa.codPessoa}"> selected</c:if>>${pessoa.nome}</option>  
                             </c:forEach>
                         </select>
                     </td>

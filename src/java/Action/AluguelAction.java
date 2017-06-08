@@ -40,6 +40,12 @@ public class AluguelAction implements Action{
             if(!operacao.equals("Incluir")){
                 int codAluguel = Integer.parseInt(request.getParameter("codAluguel"));
                 aluguel = (Aluguel) AluguelDAO.getInstance().obterT(codAluguel);
+                String msg = aluguel.getPromocao();
+                if(!msg.equals("")){
+                    msg = "Aluguel da Fantasia "+aluguel.getFantasia().getNome()+
+                            " está com desconto de "+aluguel.getP().getDesconto()+"% na Promoção "+aluguel.getPromocao();
+                }
+                request.setAttribute("mensagem", msg);
                 request.setAttribute("aluguel", aluguel);
             }
             RequestDispatcher view = request.getRequestDispatcher("/manterAluguel.jsp");

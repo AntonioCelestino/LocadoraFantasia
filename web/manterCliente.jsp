@@ -17,7 +17,7 @@
                         <select name="optPessoa" <c:if test="${operacao != 'Incluir'}"> readonly</c:if>>
                             <option value="0" <c:if test="${pessoa.codPessoa == null}"> selected</c:if>> </option>  
                             <c:forEach items="${pessoas}" var="pessoa">
-                                <option value="${pessoa.codPessoa}" <c:if test="${pessoa.codPessoa == pessoa.codPessoa}"> selected</c:if>>${pessoa.nome}</option>  
+                                <option value="${pessoa.codPessoa}" <c:if test="${pessoa.codPessoa == cliente.pessoa.codPessoa}"> selected</c:if>>${pessoa.nome}</option>  
                             </c:forEach>
                         </select>
                     </td>
