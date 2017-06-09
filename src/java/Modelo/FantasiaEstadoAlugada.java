@@ -16,7 +16,7 @@ public class FantasiaEstadoAlugada implements FantasiaEstado{
     @Override
     public boolean alugar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoAlugada());
-        return true;
+        return false;
     }
 
     @Override

@@ -22,7 +22,11 @@
                 </tr>
                 <tr>
                     <td>Tamanho</td> 
-                    <td><input type="text" name="txtTamanho" value="${fantasia.tamanho}" <c:if test="${operacao == 'Excluir'}"> readonly</c:if>></td>
+                    <td>
+                        <input type="radio" name="optTamanho" value="Pequeno" <c:if test="${fantasia.tamanho == 'Pequeno'}"> checked</c:if>>Pequeno<br/>
+                        <input type="radio" name="optTamanho" value="Médio" <c:if test="${fantasia.tamanho == 'Médio'}"> checked</c:if>>Médio<br/>
+                        <input type="radio" name="optTamanho" value="Grande" <c:if test="${fantasia.tamanho == 'Grande'}"> checked</c:if>>Grande<br/>
+                    </td>
                 </tr>
                 <tr>
                     <td>Diaria</td> 
@@ -31,10 +35,10 @@
                 <tr> 
                     <td>Estado</td> 
                     <td> 
-                        <input type="radio" name="optEstado" value="disponibilizar" <c:if test="${fantasia.nomeEstado == 'Disponível'}"> checked</c:if>>Disponivel
-                        <br /><input type="radio" name="optEstado" value="alugar" <c:if test="${fantasia.nomeEstado == 'Alugada'}"> checked</c:if>>Alugada
-                        <br /><input type="radio" name="optEstado" value="restaurar" <c:if test="${fantasia.nomeEstado == 'Restaurando'}"> checked</c:if>>Restaurando
-                        <br /><input type="radio" name="optEstado" value="descartar" <c:if test="${fantasia.nomeEstado == 'Descartada'}"> checked</c:if>>Descartada
+                        <input type="radio" name="optEstado" value="Disponível" <c:if test="${fantasia.nomeEstado == 'Disponível'}"> checked</c:if>>Disponivel
+                        <br /><input type="radio" name="optEstado" value="Alugada" <c:if test="${fantasia.nomeEstado == 'Alugada'}"> checked</c:if>>Alugada
+                        <br /><input type="radio" name="optEstado" value="Restaurando" <c:if test="${fantasia.nomeEstado == 'Restaurando'}"> checked</c:if>>Restaurando
+                        <br /><input type="radio" name="optEstado" value="Descartada" <c:if test="${fantasia.nomeEstado == 'Descartada'}"> checked</c:if>>Descartada
                     </td>
                 </tr>
                 <tr>

@@ -9,11 +9,11 @@
     </head>
     <body>
         <h1>Manter Funcionario - ${operacao}</h1>
-        <form action="ChainController?codFuncionario=${funcionario.codFuncionario}" method="post">
+        <form action="FrontController?action=Chain&acao=pesquisar&codFuncionario=${funcionario.codFuncionario}" method="post">
             <input type="radio" name="atividade" value="Negociar">Negociar<br>
             <input type="radio" name="atividade" value="Vender">Vender<br>
             <input type="radio" name="atividade" value="Atender">Atender<br>
-            <input type="submit" value="Executar atividade"/>
+            <input type="submit" value="Ver atividade"/>
         </form>
         <form action="FrontController?action=Funcionario&acao=confirmarOperacao&operacao=${operacao}&codFuncionario=${funcionario.codFuncionario}" method="post">
             <table>

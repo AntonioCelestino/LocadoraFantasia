@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,23 +20,29 @@ public class FrontController extends HttpServlet {
      * @throws java.lang.NoSuchMethodException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+            throws ServletException, IOException, ClassNotFoundException, NoSuchMethodException, IllegalArgumentException{
         request.setCharacterEncoding( "UTF-8" );
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        Action actionObject = null;
+        Action actionObject;
         if(action == null || action.equals("")){
             response.sendRedirect("index.jsp");
         }
         actionObject=ActionFactory.create("Action."+action+"Action");
         if(actionObject != null){
             String acao = request.getParameter("acao");
-            if(acao.equals("pesquisar")){
-                actionObject.pesquisar(request, response);
-            }else if(acao.equals("prepararOperacao")){
-                actionObject.prepararOperacao(request, response);
-            }else if(acao.equals("confirmarOperacao")){
-                actionObject.confirmarOperacao(request, response);
+            switch (acao) {
+                case "pesquisar":
+                    actionObject.pesquisar(request, response);
+                    break;
+                case "prepararOperacao":
+                    actionObject.prepararOperacao(request, response);
+                    break;
+                case "confirmarOperacao":
+                    actionObject.confirmarOperacao(request, response);
+                    break;
+                default:
+                    break;
             }
             /*
             Class[] cArg = new Class[2];
@@ -62,7 +67,7 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalArgumentException ex) {
             throw new ServletException(ex);
         }
     }
@@ -80,7 +85,7 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalArgumentException ex) {
             throw new ServletException(ex);
         }
     }

@@ -22,7 +22,7 @@ public class FantasiaEstadoDescartada implements FantasiaEstado{
     @Override
     public boolean descartar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoDescartada());
-        return true;
+        return false;
     }
 
     @Override

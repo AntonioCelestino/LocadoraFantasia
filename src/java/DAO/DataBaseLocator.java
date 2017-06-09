@@ -19,7 +19,7 @@ public class DataBaseLocator {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/aluguel_fantasias", "root", "");
         } catch (SQLException e) {
-            throw new ServletException("<b>Erro ao estabelecer conexão com o banco de dados</b>", e);
+            throw new ServletException("<br><b>Erro ao estabelecer conexão com o banco de dados:</b><br>"+e.getMessage());
         }
         return conn;
     }

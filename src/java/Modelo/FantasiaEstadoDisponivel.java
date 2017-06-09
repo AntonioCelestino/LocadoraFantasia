@@ -10,7 +10,7 @@ public class FantasiaEstadoDisponivel implements FantasiaEstado{
     @Override
     public boolean disponibilizar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoDisponivel());
-        return true;
+        return false;
     }
 
     @Override

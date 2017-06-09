@@ -59,75 +59,51 @@ public class AluguelAction implements Action{
 
     @Override
     public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
-        if(request.getParameter("btnFinalizar").equals("finalizarAluguel")){
-            finalizarAluguel(request, response);
-        }else{
-            String operacao = request.getParameter("operacao");
-            if(!operacao.equals("Incluir")){
-                int codAluguel = Integer.parseInt(request.getParameter("codAluguel"));
-                aluguel.setCodAluguel(codAluguel);
-                try {
-                    aluguel.setDtAluguel(request.getParameter("txtDataAluguel"));
-                    aluguel.setDtDevolucao(request.getParameter("txtDataDevolucao"));
-                } catch (ParseException ex) {
-                    throw new ServletException(ex);
-                }
-            }else{
-                aluguel.setDataAluguel(new Date());
-                aluguel.setDataDevolucao(new Date());
-            }
-            if(request.getParameter("optPromocao") != null){
-                aluguel.setPromocao(request.getParameter("optPromocao"));
-            }else{
-                aluguel.setPromocao("");
-            }
-            if(request.getParameter("txtPrecoAluguel").equals("")){
-                aluguel.setPrecoAluguel(0);
-            }else{
-                aluguel.setPrecoAluguel(Double.parseDouble(request.getParameter("txtPrecoAluguel")));
-            }
-            aluguel.setPessoa((Pessoa) PessoaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optPessoa"))));
-            aluguel.setFantasia((Fantasia) FantasiaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optFantasia"))));
-            if(operacao.equals("Incluir")){
-                Fantasia f = aluguel.getFantasia();
-                String msg = f.alugar();
-                if(!msg.equals("")){
-                    throw new ServletException(msg);
-                }else{
-                    FantasiaDAO.getInstance().operacao(f, "Editar");
-                }
-            }
-            try{
-                AluguelDAO.getInstance().operacao(aluguel, operacao);
-                response.sendRedirect("FrontController?action=Aluguel&acao=pesquisar");
-            }catch(IOException ex){
+        String operacao = request.getParameter("operacao");
+        if(!operacao.equals("Incluir")){
+            int codAluguel = Integer.parseInt(request.getParameter("codAluguel"));
+            aluguel = (Aluguel) AluguelDAO.getInstance().obterT(codAluguel);
+            aluguel.setCodAluguel(codAluguel);
+            try {
+                aluguel.setDtAluguel(request.getParameter("txtDataAluguel"));
+                aluguel.setDtDevolucao(request.getParameter("txtDataDevolucao"));
+            } catch (ParseException ex) {
                 throw new ServletException(ex);
             }
+        }else{
+            aluguel.setDataAluguel(new Date());
+            aluguel.setDataDevolucao(new Date());
+            aluguel.setPessoa((Pessoa) PessoaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optPessoa"))));
+            aluguel.setFantasia((Fantasia) FantasiaDAO.getInstance().obterT(Integer.parseInt(request.getParameter("optFantasia"))));
         }
-    }
-    
-    private void finalizarAluguel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
-        String operacao = request.getParameter("operacao");
-        if(operacao.equals("Editar")){
-            int codAluguel = Integer.parseInt(request.getParameter("codAluguel"));
-            if(request.getParameter("optPromocao") != null){
-                aluguel.setPromocao(request.getParameter("optPromocao"));
-            }else{
-                aluguel.setPromocao("");
+        if(request.getParameter("optPromocao") != null){
+            aluguel.setPromocao(request.getParameter("optPromocao"));
+        }else{
+            aluguel.setPromocao("");
+        }
+        aluguel.calculaPrecoAluguel();
+        Fantasia f = aluguel.getFantasia();
+        String msg = null;
+        if(operacao.equals("Incluir")){
+            msg = f.alugar();
+        }else if(operacao.equals("Editar")){
+            String t = request.getParameter("finalizar");
+            if(t != null && t.equals("on")){
+                msg = f.disponibilizar();
             }
-            aluguel = (Aluguel) AluguelDAO.getInstance().obterT(codAluguel);
-            aluguel.calculaPrecoAluguel();
-            Fantasia f = aluguel.getFantasia();
-            f.disponibilizar();
-            FantasiaDAO.getInstance().operacao(f, "Editar");
-            AluguelDAO.getInstance().operacao(aluguel, operacao);
         }
-        request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
-        request.setAttribute("fantasias", FantasiaDAO.getInstance().obterTs());
-        request.setAttribute("aluguel", aluguel);
-        request.setAttribute("operacao", operacao);
-        RequestDispatcher view = request.getRequestDispatcher("/manterAluguel.jsp");
-        view.forward(request, response);
+        if(msg != null){ 
+            if(!msg.equals("")){
+                throw new ServletException(msg);
+            }else{
+                FantasiaDAO.getInstance().operacao(f, "Editar");
+            }
+        }
+        try{
+            AluguelDAO.getInstance().operacao(aluguel, operacao);
+            response.sendRedirect("FrontController?action=Aluguel&acao=pesquisar");
+        }catch(IOException ex){
+            throw new ServletException(ex);
+        }
     }
-    
 }

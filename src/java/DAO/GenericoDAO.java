@@ -24,6 +24,7 @@ public abstract class GenericoDAO <T>{
             while(rs.next()){  
                 rows.add((T) rm.mapeamento(rs));  
             } 
+            conn.commit();
         }catch(ClassNotFoundException | SQLException e){
             throw new ServletException(e);
         }finally{
@@ -35,7 +36,7 @@ public abstract class GenericoDAO <T>{
     protected T obterClasse(String sql, List<Object> params, RowMapping rm) throws SQLException, ClassNotFoundException, ServletException{
         Connection conn = null;
         PreparedStatement pst = null;
-        ResultSet rs = null;
+        ResultSet rs;
         T row = null;
         try {
             conn = DataBaseLocator.getInstance().getConnection();

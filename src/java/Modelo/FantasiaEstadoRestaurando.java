@@ -28,7 +28,7 @@ public class FantasiaEstadoRestaurando implements FantasiaEstado{
     @Override
     public boolean restaurar(Fantasia f) {
         //f.setEstado(new FantasiaEstadoRestaurando());
-        return true;
+        return false;
     }
     
 }

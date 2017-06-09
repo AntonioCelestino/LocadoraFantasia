@@ -1,13 +1,9 @@
 package Modelo;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 public class Cliente implements Observer{
-    private Observable fantasia;
-    private List<Fantasia> fantasias;
-    
     protected int codCliente;
     private String tipo;
     protected Pessoa pessoa;
@@ -15,39 +11,21 @@ public class Cliente implements Observer{
     public Cliente() {
     }
     
-    public Cliente(String nome, List<Fantasia> fantasias){
+    public Cliente(String nome){
         this.pessoa = new Pessoa();
         this.pessoa.setNome(nome);
-        this.fantasias = fantasias;
     }
     
-    public void confereEstado(String estado){
-        for(Fantasia fan : getFantasias()){
-            setFantasia(fan);
-            fantasia.addObserver(this);
-            fan.setNomeEstado(estado);
-        }
+    public void observarFantasia(Observable fantasia){
+        fantasia.addObserver(this);
     }
     
     @Override
     public void update(Observable fantasiaSubject, Object arg1){
         if(fantasiaSubject instanceof Fantasia){
             Fantasia f = (Fantasia) fantasiaSubject;
-                System.out.println("Atenção "+pessoa.getNome()+", a fantasia "+f.getNome()+" está "+f.getNomeEstado());
+            System.out.println("Atenção "+pessoa.getNome()+", a fantasia "+f.getNome()+" está "+f.getNomeEstado());
         }
-    }
-    
-    public List<Fantasia> getFantasias() {
-        return fantasias;
-    }
-    public void setFantasias(List<Fantasia> fantasias) {
-        this.fantasias = fantasias;
-    }
-    public Observable getFantasia() {
-        return fantasia;
-    }
-    public void setFantasia(Observable fantasia) {
-        this.fantasia = fantasia;
     }
     
     public int getCodCliente() {

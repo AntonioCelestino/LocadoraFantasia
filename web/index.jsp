@@ -12,6 +12,6 @@
         <a href="FrontController?action=Cliente&acao=pesquisar">Manter Cliente</a><br>
         <a href="FrontController?action=Funcionario&acao=pesquisar">Manter Funcionario</a><br>
         <a href="FrontController?action=Aluguel&acao=pesquisar">Manter Aluguel</a><br>
-        <a href="ListarFantasias">Listar Fantasias por categoria</a><br>
+        <a href="FrontController?action=ListarFantasias&acao=pesquisar">Listar Fantasias por categoria</a><br>
     </body>
 </html>

@@ -58,21 +58,23 @@ public class FantasiaAction implements Action{
                 /*fantasia.getClass().getMethod(estado, String.class);*/
                 FantasiaEstado estadoAnterior = fantasia.getEstado();
                 String msg = "";
-                switch (estado) {
-                    case "disponibilizar":
-                        msg = fantasia.disponibilizar();
-                        break;
-                    case "alugar":
-                        msg = fantasia.alugar();
-                        break;
-                    case "descartar":
-                        msg = fantasia.descartar();
-                        break;
-                    case "restaurar":
-                        msg = fantasia.restaurar();
-                        break;
-                    default:
-                        break;
+                if(!estadoAnterior.getEstado().equals(estado)){
+                    switch (estado) {
+                        case "Disponível":
+                            msg = fantasia.disponibilizar();
+                            break;
+                        case "Alugada":
+                            msg = fantasia.alugar();
+                            break;
+                        case "Descartada":
+                            msg = fantasia.descartar();
+                            break;
+                        case "Restaurando":
+                            msg = fantasia.restaurar();
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 if(!msg.equals("")){
                     throw new ServletException(msg);
@@ -84,7 +86,7 @@ public class FantasiaAction implements Action{
             }
             fantasia.setNome(request.getParameter("txtNome"));
             fantasia.setCategoria(request.getParameter("txtCategoria"));
-            fantasia.setTamanho(request.getParameter("txtTamanho"));
+            fantasia.setTamanho(request.getParameter("optTamanho"));
             fantasia.setDiaria(Double.parseDouble(request.getParameter("txtDiaria")));
             try{
                 FantasiaDAO.getInstance().operacao(fantasia, operacao);
@@ -100,9 +102,13 @@ public class FantasiaAction implements Action{
         if(operacao.equals("Editar")){
             int codFantasia = Integer.parseInt(request.getParameter("codFantasia"));
             fantasia = (Fantasia) FantasiaDAO.getInstance().obterT(codFantasia);
-            fantasia.restoreFromMemento(FantasiaDAO.getInstance().getEstadoAnterior());
+            try {
+                fantasia.restoreFromMemento(FantasiaDAO.getInstance().getEstadoAnterior());
+            } catch (Exception e) {
+                throw new ServletException("<b>Não há estados anteriores</b>");
+            }
             FantasiaDAO.getInstance().operacao(fantasia, operacao);
-            FantasiaDAO.getInstance().removerEstadosAnteriores();
+            FantasiaDAO.getInstance().removerUltimoEstadoAnterior();
         }
         response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
     }

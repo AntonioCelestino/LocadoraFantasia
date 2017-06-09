@@ -16,8 +16,8 @@ public class FantasiaDAO extends GenericoDAO<Fantasia>{
         return estadosSalvos.get(estadosSalvos.size()-1);
     }
     
-    public void removerEstadosAnteriores(){
-        this.estadosSalvos.removeAll(estadosSalvos);
+    public void removerUltimoEstadoAnterior(){
+        this.estadosSalvos.remove(estadosSalvos.size()-1);
     }
     
     public void setEstadoAnterior(FantasiaMemento fm){
