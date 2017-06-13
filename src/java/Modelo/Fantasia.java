@@ -71,8 +71,6 @@ public class Fantasia extends Observable{
         estado = removeAcentos(estado);
         FantasiaEstado actionObject = ActionFactory.estado("Modelo.FantasiaEstado"+estado);
         this.estado = actionObject;
-        setChanged();
-        notifyObservers();
     }
 
     public double getDiaria() {
@@ -86,25 +84,41 @@ public class Fantasia extends Observable{
     public String disponibilizar(){
         if(!estado.disponibilizar(this)){
             return "<b>Fantasia "+nome+" não pode ser Disponibilizada, pois está "+estado.getEstado()+".</b>";
-        }else{return "";}
+        }else{
+            setChanged();
+            notifyObservers();
+            return "";
+        }
     }
     
     public String descartar(){
         if(!estado.descartar(this)){
             return "<b>Fantasia "+nome+" não pode ser Descartada, pois está "+estado.getEstado()+".</b>";
-        }else{return "";}
+        }else{
+            setChanged();
+            notifyObservers();
+            return "";
+        }
     }
     
     public String alugar(){
         if(!estado.alugar(this)){
             return "<b>Fantasia "+nome+" não pode ser Alugada, pois está "+estado.getEstado()+".</b>";
-        }else{return "";}
+        }else{
+            setChanged();
+            notifyObservers();
+            return "";
+        }
     }
     
     public String restaurar(){
         if(!estado.restaurar(this)){
             return "<b>Fantasia "+nome+" não pode ser Restaurada, pois está "+estado.getEstado()+".</b>";
-        }else{return "";}
+        }else{
+            setChanged();
+            notifyObservers();
+            return "";
+        }
     }
     
     public FantasiaMemento saveToMemento(FantasiaEstado estadoAnterior){

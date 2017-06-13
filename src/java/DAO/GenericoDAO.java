@@ -44,8 +44,7 @@ public abstract class GenericoDAO <T>{
             pst = conn.prepareStatement(sql);  
             this.receiveParameters(pst, params);  
             rs = pst.executeQuery();
-            rs.next();
-            row = (T) rm.mapeamento(rs);
+            if(rs.next()){row = (T) rm.mapeamento(rs);}
             conn.commit(); 
         } catch(ClassNotFoundException | SQLException e) {
             throw new ServletException(e);

@@ -10,6 +10,7 @@
     <body>
         <h1>Manter Cliente - ${operacao}</h1>
         <h3>Mensagem: ${mensagem}</h3>
+        Mensagens Observable:<br><textarea rows="5" cols="100" readonly="true">${observable}</textarea>
         <form action="FrontController?action=Cliente&acao=confirmarOperacao&operacao=${operacao}&codCliente=${cliente.codCliente}" method="post">
             <table>
                 <tr> 
@@ -23,6 +24,17 @@
                     </td>
                 </tr>
                 <tr> 
+                    <td><hr />Informar quando a fantasia 
+                        <select name="optFantasia" <c:if test="${operacao != 'Incluir'}"> readonly</c:if>>
+                            <option value="0" selected ></option>  
+                            <c:forEach items="${fantasias}" var="fantasia">
+                                <option value="${fantasia.codFantasia}">${fantasia.nome}</option>  
+                            </c:forEach>
+                        </select>
+                        mudar de estado.
+                    </td>
+                </tr>
+                <tr> 
                     <td>Tipo</td> 
                     <td> 
                         <input type="radio" name="optTipo" value="Comum" <c:if test="${cliente.tipo == 'Comum'}"> checked</c:if>>Comum
@@ -32,6 +44,22 @@
                 <tr>
                     <td><input type="submit" value="Confirmar ${operacao}"></td>
                 </tr>
+            </table>
+            <table border="1">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Fantasia</th>
+                    <th>Ação</th>
+                </tr>
+                <c:forEach items="${interesses}" var="interesse">
+                    <tr>
+                        <td><c:out value="${interesse.cliente.pessoa.nome}"/></td>
+                        <td><c:out value="${interesse.fantasia.nome}"/></td>
+                        <td>
+                            <a href="FrontController?action=ExcluirInteresse&acao=confirmarOperacao&codCliente=<c:out value="${interesse.cliente.codCliente}"/>&codFantasia=<c:out value="${interesse.fantasia.codFantasia}"/>">Não estou mais interessado</a>
+                        </td>
+                    </tr>
+                </c:forEach>
             </table>
         </form>
     </body>

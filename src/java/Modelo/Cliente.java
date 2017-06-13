@@ -1,7 +1,12 @@
 package Modelo;
 
+import DAO.InteresseDAO;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
 
 public class Cliente implements Observer{
     protected int codCliente;
@@ -16,15 +21,28 @@ public class Cliente implements Observer{
         this.pessoa.setNome(nome);
     }
     
-    public void observarFantasia(Observable fantasia){
-        fantasia.addObserver(this);
-    }
-    
     @Override
     public void update(Observable fantasiaSubject, Object arg1){
         if(fantasiaSubject instanceof Fantasia){
             Fantasia f = (Fantasia) fantasiaSubject;
-            System.out.println("Atenção "+pessoa.getNome()+", a fantasia "+f.getNome()+" está "+f.getNomeEstado());
+            try {
+                adicionarMensagem("Data: "+new Date()+" | Atenção "+pessoa.getNome()+", a fantasia "
+                        +f.getNome()+" está "+f.getNomeEstado()+".\n", f);
+            } catch (ServletException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void adicionarMensagem(String msg, Fantasia f) throws ServletException{
+        try {
+            Interesse i = new Interesse();
+            i.setCliente(this);
+            i.setFantasia(f);
+            i.setMensagem(msg);
+            InteresseDAO.getInstance().operacao(i, "Editar");
+        } catch (ServletException ex) {
+            throw new ServletException(ex);
         }
     }
     

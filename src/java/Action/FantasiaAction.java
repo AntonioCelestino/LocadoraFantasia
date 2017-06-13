@@ -2,10 +2,14 @@ package Action;
 
 import Controller.Action;
 import DAO.FantasiaDAO;
+import DAO.InteresseDAO;
 import Modelo.Fantasia;
 import Modelo.FantasiaEstado;
 import Modelo.FantasiaEstadoDisponivel;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +62,11 @@ public class FantasiaAction implements Action{
                 /*fantasia.getClass().getMethod(estado, String.class);*/
                 FantasiaEstado estadoAnterior = fantasia.getEstado();
                 String msg = "";
+                try {
+                    InteresseDAO.getInstance().obterClientesInteressados(fantasia);
+                } catch (SQLException ex) {
+                    throw new ServletException(ex);
+                }
                 if(!estadoAnterior.getEstado().equals(estado)){
                     switch (estado) {
                         case "Disponível":

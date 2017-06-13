@@ -1,6 +1,7 @@
 package DAO;
 
 import Modelo.Cliente;
+import Modelo.Interesse;
 import Modelo.Pessoa;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,20 @@ public class ClienteDAO extends GenericoDAO<Cliente>{
     private final String tabela = "CLIENTE";
     private final List<Object> params = new ArrayList<>();
     private String sql = null;
+    
+    public List<String> getMensagensObserver(Cliente c) throws ServletException{
+        List<Interesse> is = InteresseDAO.getInstance().obterTs();
+        List<String> msgs = new ArrayList<>();
+        for (Interesse i : is) {
+            if(i.getCliente().getCodCliente() == c.getCodCliente() && i.getMensagem() != null){
+                msgs.add(i.getMensagem());
+            }
+        }
+        if(msgs.isEmpty()){
+            msgs.add("Nenhuma Mensagem Recebida");
+        }
+        return msgs;
+    }
     
     public static ClienteDAO getInstance() {
         return instance;

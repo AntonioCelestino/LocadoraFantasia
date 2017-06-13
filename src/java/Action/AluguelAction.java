@@ -3,11 +3,13 @@ package Action;
 import Controller.Action;
 import DAO.AluguelDAO;
 import DAO.FantasiaDAO;
+import DAO.InteresseDAO;
 import DAO.PessoaDAO;
 import Modelo.Aluguel;
 import Modelo.Fantasia;
 import Modelo.Pessoa;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
@@ -84,6 +86,11 @@ public class AluguelAction implements Action{
         aluguel.calculaPrecoAluguel();
         Fantasia f = aluguel.getFantasia();
         String msg = null;
+        try {
+            InteresseDAO.getInstance().obterClientesInteressados(f);
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
         if(operacao.equals("Incluir")){
             msg = f.alugar();
         }else if(operacao.equals("Editar")){
