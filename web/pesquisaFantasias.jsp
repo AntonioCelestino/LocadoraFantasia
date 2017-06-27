@@ -10,6 +10,7 @@
     <body>
         <a href="FrontController?action=">Menu</a>
         <h1>Pesquisa de Fantasias</h1>
+        Mensagens Observable:<br><textarea rows="5" cols="100" readonly="true">${observable}</textarea>
         <table border="1">
             <tr>
                 <th>Id Fantasia</th>

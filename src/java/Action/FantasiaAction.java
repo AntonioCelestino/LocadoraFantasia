@@ -6,10 +6,10 @@ import DAO.InteresseDAO;
 import Modelo.Fantasia;
 import Modelo.FantasiaEstado;
 import Modelo.FantasiaEstadoDisponivel;
+import Modelo.Interesse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -84,6 +84,21 @@ public class FantasiaAction implements Action{
                         default:
                             break;
                     }
+                    List<Interesse> ls;
+                    try {
+                        ls = InteresseDAO.getInstance().obterClientesInteressados2(fantasia);
+                            if(!ls.isEmpty()){
+                            String s = "";
+                            for (Interesse l : ls) {
+                                s += l.getMensagem()+"\n";
+                            }
+                            request.setAttribute("observable", s);
+                        }else{
+                            request.setAttribute("observable", "Nenhuma Mensagem Recebida");
+                        }
+                    } catch (SQLException ex) {
+                        throw new ServletException(ex);
+                    }
                 }
                 if(!msg.equals("")){
                     throw new ServletException(msg);
@@ -99,7 +114,10 @@ public class FantasiaAction implements Action{
             fantasia.setDiaria(Double.parseDouble(request.getParameter("txtDiaria")));
             try{
                 FantasiaDAO.getInstance().operacao(fantasia, operacao);
-                response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
+                //response.sendRedirect("FrontController?action=Fantasia&acao=pesquisar");
+                request.setAttribute("fantasias", FantasiaDAO.getInstance().obterTs());
+                RequestDispatcher view = request.getRequestDispatcher("/pesquisaFantasias.jsp");
+                view.forward(request, response);
             }catch(IOException ex){
                 throw new ServletException(ex);
             }

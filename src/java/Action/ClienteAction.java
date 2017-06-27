@@ -12,6 +12,7 @@ import Modelo.Fantasia;
 import Modelo.Interesse;
 import Modelo.Pessoa;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,7 +40,6 @@ public class ClienteAction implements Action{
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
             request.setAttribute("pessoas", PessoaDAO.getInstance().obterTs());
-            request.setAttribute("fantasias", FantasiaDAO.getInstance().obterTs());
             if(!operacao.equals("Incluir")){
                 int codCliente = Integer.parseInt(request.getParameter("codCliente"));
                 cliente = ClienteDAO.getInstance().obterT(codCliente);
@@ -60,6 +60,8 @@ public class ClienteAction implements Action{
                 }
                 List<Interesse> is = InteresseDAO.getInstance().obterFantasiasEmInteresse(cliente);
                 request.setAttribute("interesses", is);
+                List<Fantasia> fs = FantasiaDAO.getInstance().obterTs();                
+                request.setAttribute("fantasias", adicionarFantasiasNaoInteressadas(is, fs));                
                 request.setAttribute("mensagem", cliente.getDadosCliente());
                 request.setAttribute("cliente", cliente);
             }
@@ -95,5 +97,19 @@ public class ClienteAction implements Action{
             throw new ServletException(ex);
         }
     }
-    
+
+    private ArrayList<Fantasia> adicionarFantasiasNaoInteressadas(List<Interesse> is, List<Fantasia> fs) {
+        ArrayList<Fantasia> nfs = new ArrayList<>();
+        for (Fantasia f : fs) {
+            boolean t = true;
+            for (Interesse i : is) {
+                if(i.getFantasia().getCodFantasia() == f.getCodFantasia()){
+                    t = false;
+                    break;
+                }
+            }
+            if(t){nfs.add(f);}
+        }
+        return nfs;
+    }
 }

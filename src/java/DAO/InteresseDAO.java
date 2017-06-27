@@ -3,7 +3,6 @@ package DAO;
 import Modelo.Cliente;
 import Modelo.Fantasia;
 import Modelo.Interesse;
-import Modelo.Pessoa;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +35,18 @@ public class InteresseDAO extends GenericoDAO<Interesse>{
                 f.addObserver(i.getCliente());
             }
         }
+    }
+    public List<Interesse> obterClientesInteressados2(Fantasia f) throws SQLException, ClassNotFoundException, ServletException{
+        params.clear();
+        List<Interesse> is = new ArrayList<>();
+        sql = "SELECT * FROM CLIENTE, "+tabela+" WHERE "+tabela+".CLIENTE_ID_CLIENTE = CLIENTE.ID_CLIENTE AND "+tabela+".FANTASIA_ID_FANTASIA = ?";
+        params.add(f.getCodFantasia());    
+        try {
+            is = super.obterClasses(sql, params, getMapa());
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw new ServletException(ex);
+        }
+        return is;
     }
     
     public List<Interesse> obterFantasiasEmInteresse(Cliente c) throws ServletException{
